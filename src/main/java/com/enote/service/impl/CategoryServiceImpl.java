@@ -106,9 +106,11 @@ List<CategoryResponse> categoryList = categories.stream().map(cat->mapper.map(ca
 		
 		if(ObjectUtils.isEmpty(category))
 		{
-			if (category.getName()==null) {
-				throw new IllegalArgumentException("Name is NULL");
-			}
+//			
+//			if (category.getName()==null) {
+//				throw new IllegalArgumentException("Name is NULL");
+//			}
+			category.getName().toUpperCase();
 			return mapper.map(category, CategoryDto.class);
 		}
 		return null;
