@@ -13,6 +13,7 @@ import org.springframework.util.ObjectUtils;
 import com.enote.dto.CategoryDto;
 import com.enote.dto.CategoryResponse;
 import com.enote.entity.Category;
+import com.enote.exception.ResourceNotFoundException;
 import com.enote.repository.CategoryRepository;
 import com.enote.service.CategoryService;
 
@@ -74,8 +75,6 @@ public class CategoryServiceImpl implements CategoryService {
 			
 		}
 		
-		
-		
 	}
 
 	@Override
@@ -100,13 +99,16 @@ List<CategoryResponse> categoryList = categories.stream().map(cat->mapper.map(ca
 	}
 
 	@Override
-	public CategoryDto getCategoryById(Integer id) {
+	public CategoryDto getCategoryById(Integer id) throws Exception {
 		
-		Optional<Category> findByCategory = categoryRepo.findByIdAndIsDeletedFalse(id);
+		Category category = categoryRepo.findByIdAndIsDeletedFalse(id)
+				.orElseThrow(()->new ResourceNotFoundException("Category not found with Id "+id));
 		
-		if(findByCategory.isPresent())
+		if(ObjectUtils.isEmpty(category))
 		{
-			Category category = findByCategory.get();
+			if (category.getName()==null) {
+				throw new IllegalArgumentException("Name is NULL");
+			}
 			return mapper.map(category, CategoryDto.class);
 		}
 		return null;
