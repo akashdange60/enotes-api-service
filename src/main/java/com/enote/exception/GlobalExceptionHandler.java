@@ -34,6 +34,12 @@ public class GlobalExceptionHandler {
 		
 	}
 	
-	
+	@ExceptionHandler(ValidationException.class)
+	public ResponseEntity<?> handalValidationException(ValidationException e)
+	{
+		log.error("Controller :: getCategoryDetailsById :: "+e.getMessage());
+		return new ResponseEntity<>(e.getErrors(),HttpStatus.BAD_REQUEST);
+		
+	}
 
 }

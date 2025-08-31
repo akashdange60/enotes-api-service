@@ -16,6 +16,7 @@ import com.enote.entity.Category;
 import com.enote.exception.ResourceNotFoundException;
 import com.enote.repository.CategoryRepository;
 import com.enote.service.CategoryService;
+import com.enote.util.Validation;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -26,13 +27,15 @@ public class CategoryServiceImpl implements CategoryService {
 	@Autowired
 	private CategoryRepository categoryRepo;
 	
+	@Autowired
+	private Validation validation;
+	
 	@Override
 	public Boolean saveCategory(CategoryDto categoryDto) {
 		
-//		Category category=new Category();
-//		category.setName(categoryDto.getName());
-//		category.setDescription(categoryDto.getDescription());
-//		category.setIsActive(categoryDto.getIsActive());
+//Validation Checking 
+		
+		validation.categoryValidation(categoryDto);
 		
 	Category category = mapper.map(categoryDto, Category.class);
 	
