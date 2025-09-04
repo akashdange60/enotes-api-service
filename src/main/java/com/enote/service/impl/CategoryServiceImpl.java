@@ -43,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
 	{
 		category.setIsDeleted(false);
 		category.setCreatedOn(new Date());
-		category.setCreatedBy(1); // currentUserId must not be null
+//		category.setCreatedBy(1); // currentUserId must not be null
 		
 	}
 	else {
@@ -73,8 +73,8 @@ public class CategoryServiceImpl implements CategoryService {
 			category.setCreatedOn(existCategory.getCreatedOn());
 			category.setIsDeleted(existCategory.getIsDeleted());
 			
-			category.setUpdatedBy(1);
-			category.setUpdatedOn(new Date());
+//			category.setUpdatedBy(1);
+//			category.setUpdatedOn(new Date());
 			
 		}
 		

@@ -1,0 +1,28 @@
+Normal API used within postman
+
+1)POST.....http://localhost:8080/api/v1/category/save
+Body..........raw.............JSON
+{
+     "id":7,
+    "name":"GoLang     ",
+    "description":"This is GoLang Category",
+    "isActive":false
+
+}          
+2)GET......http://localhost:8080/api/v1/category/
+
+3)GET......http://localhost:8080/api/v1/category/7
+
+	Auditing
+
+Spring Data provides sophisticated support to transparently keep track of who created or changed an entity and when the change happened.To benefit from that functionality, you have to equip your entity classes with auditing metadata that can be defined either using annotations or by implementing an interface. Additionally, auditing has to be enabled either through Annotation configuration or XML configuration to register the required infrastructure components. Please refer to the store-specific section for configuration samples.
+ 
+	Annotation-based Auditing Metadata
+	
+We provide @CreatedBy and @LastModifiedBy to capture the user who created or modified the entity as well as @CreatedDate and @LastModifiedDate to capture when the change happened.
+
+
+
+
+       
+                       
