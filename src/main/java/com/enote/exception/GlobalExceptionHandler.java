@@ -2,6 +2,7 @@ package com.enote.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -29,7 +30,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<?> handalResourceNotFoundException(Exception e)
 	{
-		log.error("Controller :: getCategoryDetailsById :: "+e.getMessage());
+		log.error("Controller :: handalResourceNotFoundException :: "+e.getMessage());
 		return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
 		
 	}
@@ -37,8 +38,24 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(ValidationException.class)
 	public ResponseEntity<?> handalValidationException(ValidationException e)
 	{
-		log.error("Controller :: getCategoryDetailsById :: "+e.getMessage());
+		log.error("Controller :: handalValidationException :: "+e.getMessage());
 		return new ResponseEntity<>(e.getErrors(),HttpStatus.BAD_REQUEST);
+		
+	}
+	
+	@ExceptionHandler(ExistDataException.class)
+	public ResponseEntity<?> handalExistDataException(ExistDataException e)
+	{
+		log.error("Controller :: handalExistDataException :: "+e.getMessage());
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
+		
+	}
+	
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<?> handalHttpMessageNotReadableException(HttpMessageNotReadableException e)
+	{
+		log.error("Controller :: handalHttpMessageNotReadableException :: "+e.getMessage());
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
 		
 	}
 
