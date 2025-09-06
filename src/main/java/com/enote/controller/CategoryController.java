@@ -20,6 +20,7 @@ import com.enote.dto.CategoryResponse;
 import com.enote.entity.Category;
 import com.enote.exception.ResourceNotFoundException;
 import com.enote.service.CategoryService;
+import com.enote.util.CommonUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,10 +39,12 @@ public class CategoryController {
 		
 		if(saveCategory)
 		{
-			return new ResponseEntity<>("saved successfully",HttpStatus.CREATED);
+			return CommonUtil.createBuildResponseMessage("Saved success", HttpStatus.CREATED);
+//			return new ResponseEntity<>("saved successfully",HttpStatus.CREATED);
 		}
 		else {
-			return new ResponseEntity<>("not saved",HttpStatus.INTERNAL_SERVER_ERROR);
+			return CommonUtil.createErrorResponseMessage("Category Not saved", HttpStatus.INTERNAL_SERVER_ERROR);
+//			return new ResponseEntity<>("not saved",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		
@@ -49,18 +52,15 @@ public class CategoryController {
 	
 	@GetMapping("/")
 	public ResponseEntity<?> getAllCategory()
-	{
-//		String nm=null;
-//		nm.toUpperCase();
-		
+	{	
 		   List<CategoryDto> allCategory = categoryService.getAllCategory();
 		
 		   if (CollectionUtils.isEmpty(allCategory)) {
-			   return ResponseEntity.noContent().build();
-			
-		}
+			   return ResponseEntity.noContent().build();		
+		   }
 		   else {
-			   return new ResponseEntity<>(allCategory,HttpStatus.OK);
+			   return CommonUtil.createBuildResponse(allCategory, HttpStatus.OK);
+//			   return new ResponseEntity<>(allCategory,HttpStatus.OK);
 		}
 	}
 
@@ -75,7 +75,8 @@ public class CategoryController {
 			
 		}
 		   else {
-			   return new ResponseEntity<>(allCategory,HttpStatus.OK);
+			   return CommonUtil.createBuildResponse(allCategory, HttpStatus.OK);
+//			   return new ResponseEntity<>(allCategory,HttpStatus.OK);
 		}
 	}
 	
@@ -101,16 +102,17 @@ public class CategoryController {
 //			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);		
 //		}
 //		
-   //use above code by removing throw and hiding below 4 5 lines
+   //use above code by removing throw and hiding below 4 5 lines of code
 		CategoryDto categoryDto=categoryService.getCategoryById(id);
 		
 		if(ObjectUtils.isEmpty(categoryDto))
 		{
-			return new ResponseEntity<>("Category Not Found with id= "+id,HttpStatus.NOT_FOUND);
+			return CommonUtil.createErrorResponseMessage("Category Not Found with id= "+id,HttpStatus.NOT_FOUND);
+//			return new ResponseEntity<>("Category Not Found with id= "+id,HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(categoryDto,HttpStatus.OK);
+		return CommonUtil.createBuildResponse(categoryDto, HttpStatus.OK);
+//		return new ResponseEntity<>(categoryDto,HttpStatus.OK);
 		
-
 	}	
 	
 	@DeleteMapping("/{id}")
@@ -120,9 +122,11 @@ public class CategoryController {
 		
 		if(deleted)
 		{
-			return new ResponseEntity<>("Category deleted successfully",HttpStatus.OK);
+			return CommonUtil.createBuildResponse("Category deleted successfully",HttpStatus.OK);
+//			return new ResponseEntity<>("Category deleted successfully",HttpStatus.OK);
 		}
-		return new ResponseEntity<>("Category not deleted ",HttpStatus.INTERNAL_SERVER_ERROR);
+		return CommonUtil.createErrorResponseMessage("Category not deleted ",HttpStatus.INTERNAL_SERVER_ERROR);
+//		return new ResponseEntity<>("Category not deleted ",HttpStatus.INTERNAL_SERVER_ERROR);
 
 	}	
 	
