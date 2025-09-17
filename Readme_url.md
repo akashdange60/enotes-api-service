@@ -22,6 +22,19 @@ Spring Data provides sophisticated support to transparently keep track of who cr
 We provide @CreatedBy and @LastModifiedBy to capture the user who created or modified the entity as well as @CreatedDate and @LastModifiedDate to capture when the change happened.
 
 
+POST mapping .......... http://localhost:8080/api/v1/notes/
+
+BODY.......... 
+{
+      "title":"Java Programming",
+    "description":"Java is Progaramming language",
+    "category":{
+        "id":10
+    }
+  
+}
+
+GET mapping .......... http://localhost:8080/api/v1/notes/
 
 
        
