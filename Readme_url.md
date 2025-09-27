@@ -36,6 +36,24 @@ BODY..........
 
 GET mapping .......... http://localhost:8080/api/v1/notes/
 
+	When file is going to be upload at that time the end points are below
+POST mapping   .......... http://localhost:8080/api/v1/notes/
 
-       
-                       
+key..........  notes 
+values..........{
+      "title":"DSA Programming",
+    "description":"DSA is Progaramming language",
+    "category":{
+        "id":2
+    }
+    
+}
+key........file
+values............ java.pdf or empty          
+
+
+GET mapping .......... http://localhost:8080/api/v1/notes/
+
+
+
+             

@@ -32,5 +32,8 @@ public class Notes extends BaseModel{
 	@ManyToOne
 	private Category category;
 	
+	@ManyToOne //One user can have multiple file details hence we used here manytoOne
+	private FileDetails fileDetails;  //fileDetails should be same within NotesDto class
+	
 	
 }

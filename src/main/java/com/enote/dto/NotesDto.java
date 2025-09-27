@@ -25,6 +25,20 @@ private Integer id;
 	private Integer updatedBy;
 	private Date updatedOn;
 	
+	private FilesDto fileDetails;  //fileDetails name should be same in notes class where ManytoOne mapping is done
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Setter
+	@Getter
+	public static class FilesDto
+	{
+		private Integer id;
+		private String originalFileName;
+		private String displayFileName;
+		
+	}
+	
+	
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@Setter
