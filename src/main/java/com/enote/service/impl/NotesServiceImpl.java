@@ -1,8 +1,9 @@
 package com.enote.service.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
 import com.enote.dto.NotesDto;
 import com.enote.dto.NotesDto.CategoryDto;
@@ -140,5 +142,24 @@ public class NotesServiceImpl implements NotesService{
 		
 		
 	}
+
+	@Override
+	public byte[] downloadFile(FileDetails fileDetails) throws Exception {
+		
+		InputStream io=new FileInputStream(fileDetails.getPath()); //if file is absent then exception is handle within globally
+		
+		//Now converting byte array	and return
+		return StreamUtils.copyToByteArray(io);
+	}
+
+	@Override
+	public FileDetails getFileDetails(Integer id) throws Exception {
+		
+		FileDetails fileDtls = fileRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("File is Not Available"));
+
+		return fileDtls;
+	}
+	
+	
 
 }

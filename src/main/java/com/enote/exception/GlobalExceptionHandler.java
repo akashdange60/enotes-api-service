@@ -1,5 +1,7 @@
 package com.enote.exception;
 
+import java.io.FileNotFoundException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -58,6 +60,14 @@ public class GlobalExceptionHandler {
 	{
 		log.error("Controller :: handalHttpMessageNotReadableException :: "+e.getMessage());
 		return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		
+	}
+	
+	@ExceptionHandler(FileNotFoundException.class)
+	public ResponseEntity<?> handalFileNotFoundException(FileNotFoundException e)
+	{
+		log.error("NotesServiceImpl :: handalFileNotFoundException :: "+e.getMessage());
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
 		
 	}
 

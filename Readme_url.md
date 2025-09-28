@@ -54,6 +54,7 @@ values............ java.pdf or empty
 
 GET mapping .......... http://localhost:8080/api/v1/notes/
 
-
+	For Downloading file
+GET Mapping .......http://localhost:8080/api/v1/notes/download/2
 
              
