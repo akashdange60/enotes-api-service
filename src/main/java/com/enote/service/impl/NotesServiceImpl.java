@@ -22,6 +22,7 @@ import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
 import com.enote.dto.NotesDto;
 import com.enote.dto.NotesDto.CategoryDto;
+import com.enote.dto.NotesDto.FilesDto;
 import com.enote.dto.NotesResponse;
 import com.enote.entity.FileDetails;
 import com.enote.entity.Notes;
@@ -54,6 +55,12 @@ public class NotesServiceImpl implements NotesService{
 		ObjectMapper ob=new ObjectMapper();
 		NotesDto notesDto = ob.readValue(notes, NotesDto.class);
 		
+	//update notes if id is given in request.
+		if(!ObjectUtils.isEmpty(notesDto.getId()))
+		{
+			updateNotes(notesDto,file);
+		}
+			
 		//Validation notes
 		checkCategoryExist(notesDto.getCategory());
 		
@@ -65,8 +72,11 @@ public class NotesServiceImpl implements NotesService{
 			if (!ObjectUtils.isEmpty(fileDtls)) {
 				notesMap.setFileDetails(fileDtls);
 				
-			}else {
-				notesMap.setFileDetails(null);
+			}else {			
+				if(ObjectUtils.isEmpty(notesDto.getId()))
+				{
+					notesMap.setFileDetails(null);
+				}	
 			}
 		
 		Notes saveNotes = notesRepo.save(notesMap);
@@ -76,15 +86,24 @@ public class NotesServiceImpl implements NotesService{
 		return false;
 	}
 
+	private void updateNotes(NotesDto notesDto, MultipartFile file) throws Exception {
+		Notes existNotes = notesRepo.findById(notesDto.getId()).orElseThrow(()->new ResourceNotFoundException("Invalid notes ID found.... !"));
+	// If user not choosen any file during update.	
+		if (ObjectUtils.isEmpty(file)||file.isEmpty()) {
+			notesDto.setFileDetails(mapper.map(existNotes.getFileDetails(), FilesDto.class));
+			
+		}
+	}
+
 	private FileDetails saveFileDetails(MultipartFile file) throws IOException {
 		
-		if (!ObjectUtils.isEmpty(file)) {
+		if (!ObjectUtils.isEmpty(file) && !file.isEmpty()) {
 			
 			String originalFilename = file.getOriginalFilename();
 			String extension = FilenameUtils.getExtension(originalFilename);
-			List<String> extentionAllow=Arrays.asList("pdf","xlsx","jpg","txt");
+			List<String> extentionAllow=Arrays.asList("pdf","xlsx","jpg","png","txt","jpeg","docs");
 			if (!extentionAllow.contains(extension)) {
-				throw new IllegalArgumentException("Invalid file format ! Upload only .pdf, .xlsx, .jpg, .txt files");
+				throw new IllegalArgumentException("Invalid file format ! Upload only .png, .docs, .jpeg, .pdf, .xlsx, .jpg, .txt files");
 			}	
 //	Creating random number
 			String rndString=UUID.randomUUID().toString();

@@ -37,7 +37,7 @@ public class NotesController {
 	public ResponseEntity<?> saveNotes(@RequestParam String notes,
 			@RequestParam(required = false) MultipartFile file) throws Exception
 	{
-		System.out.println("__________________file "+file.getOriginalFilename());
+		
 		Boolean saveNotes = notesService.saveNotes(notes,file);
 		if (saveNotes) {
 			return CommonUtil.createBuildResponseMessage("Notes Save successfully", HttpStatus.CREATED);

@@ -57,4 +57,42 @@ GET mapping .......... http://localhost:8080/api/v1/notes/
 	For Downloading file
 GET Mapping .......http://localhost:8080/api/v1/notes/download/2
 
+	For pagination use below api
+GET Mapping..........http://localhost:8080/api/v1/notes/user-notes	
+Param
+key ...............values
+pageNo..............2
+pageSize............3
+
+	For new Entry
+POST Mapping ................http://localhost:8080/api/v1/notes/	
+
+formdata
+key................value
+notes............{
+					"id": 28,
+      				"title":" AWS/GCP/Azure cloud",
+    				"description":"AWS/GCP/Azure cloud is for Deployment",
+   					 "category":{
+       					 "id":10
+    							}
+					}
+file................ ADD Any file here
+	
+	For update
+POST Mapping ................http://localhost:8080/api/v1/notes/	
+
+formdata
+key................value
+notes............{
+      				"title":" AWS/GCP/Azure 1 cloud",
+    				"description":"AWS/GCP/Azure 1 cloud is for Deployment",
+   					 "category":{
+       					 "id":10
+    							}
+					}
+file................ ADD Any file here
+
+
+
              

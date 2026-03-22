@@ -70,6 +70,9 @@ public class CommonUtil {
 		case "jpeg": {
 			return "image/jpeg";
 		}
+		case "jpg": {
+			return "image/jpg";
+		}
 
 		default:
 			return "application/octet-stream";
