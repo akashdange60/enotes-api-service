@@ -1,5 +1,6 @@
 package com.enote.dto;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +30,7 @@ private Integer id;
 	
     private Boolean isDeleted;  //this field is for delete and recovering the notes.
 	
-	private Date deletedOn;
+	private LocalDateTime deletedOn;
 	
 	
 	

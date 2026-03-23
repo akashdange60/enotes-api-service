@@ -1,9 +1,9 @@
 package com.enote.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -39,7 +39,7 @@ public class Notes extends BaseModel{
 	
 	private Boolean isDeleted;  //this field is for delete and recovering the notes.
 	
-	private Date deletedOn;
+	private LocalDateTime deletedOn;
 	
 	
 }
