@@ -1,5 +1,7 @@
 package com.enote.entity;
 
+import java.util.Date;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Entity;
@@ -34,6 +36,10 @@ public class Notes extends BaseModel{
 	
 	@ManyToOne //One user can have multiple file details hence we used here manytoOne
 	private FileDetails fileDetails;  //fileDetails should be same within NotesDto class
+	
+	private Boolean isDeleted;  //this field is for delete and recovering the notes.
+	
+	private Date deletedOn;
 	
 	
 }

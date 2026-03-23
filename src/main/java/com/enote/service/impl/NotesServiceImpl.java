@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import org.apache.commons.io.FilenameUtils;
@@ -54,6 +55,11 @@ public class NotesServiceImpl implements NotesService{
 		
 		ObjectMapper ob=new ObjectMapper();
 		NotesDto notesDto = ob.readValue(notes, NotesDto.class);
+		
+		//below 2 filed is for recycle bin data i.e. for delete and recovers the notes
+		notesDto.setIsDeleted(false);
+		notesDto.setDeletedOn(null);
+		
 		
 	//update notes if id is given in request.
 		if(!ObjectUtils.isEmpty(notesDto.getId()))
@@ -188,7 +194,9 @@ public class NotesServiceImpl implements NotesService{
 		
 		//Pageable pageable = PageRequest.of(1, 2);
 		Pageable pageable = PageRequest.of(pageNo, pageSize);
-		Page<Notes> pageNotes=notesRepo.findByCreatedBy(userId,pageable);
+		
+		Page<Notes> pageNotes=notesRepo.findByCreatedByAndIsDeletedFalse(userId,pageable);
+		
 		List<NotesDto> notesDto = pageNotes.get().map(n->mapper.map(n, NotesDto.class)).toList();
 		
 		NotesResponse notes=NotesResponse.builder()
@@ -204,6 +212,38 @@ public class NotesServiceImpl implements NotesService{
 		
 		return notes;
 	}
+
+	@Override
+	public void softDeleteNotes(Integer id) throws Exception {
+		
+		Notes notes = notesRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("Notes ID is invalid :: Not Found"));
+		
+		notes.setIsDeleted(true);
+		notes.setDeletedOn(new Date());
+		notesRepo.save(notes);
+	}
+
+	@Override
+	public void restoreNotes(Integer id) throws Exception {
+		
+Notes notes = notesRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("Notes ID is invalid :: Not Found"));
+		
+		notes.setIsDeleted(false);
+		notes.setDeletedOn(null);
+		notesRepo.save(notes);
+		
+	}
+
+	@Override
+	public List<NotesDto> getUserRecycleBinNotes(Integer userId) {
+		
+		List<Notes> recycleNotes = notesRepo.findByCreatedByAndIsDeletedTrue(userId);
+		//Here above two properties are add so field name should be match properly in Notes.class
+		//findByCreatedBy check ID and IsDeleted will check its status like true or false simultaneously.
+		List<NotesDto> notesDtoList = recycleNotes.stream().map(notes->mapper.map(notes, NotesDto.class)).toList();
+		return notesDtoList;
+	}
+	
 	
 	
 	

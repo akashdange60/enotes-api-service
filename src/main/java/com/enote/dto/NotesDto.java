@@ -26,6 +26,13 @@ private Integer id;
 	private Date updatedOn;
 	
 	private FilesDto fileDetails;  //fileDetails name should be same in notes class where ManytoOne mapping is done
+	
+    private Boolean isDeleted;  //this field is for delete and recovering the notes.
+	
+	private Date deletedOn;
+	
+	
+	
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@Setter
